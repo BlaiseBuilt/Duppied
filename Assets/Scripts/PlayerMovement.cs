@@ -61,4 +61,20 @@ public class TestScripts : MonoBehaviour
             Debug.Log("Moving Backward");
         }
     }
+
+    void JumpCheck()
+    {
+        if (jumpAction.ReadValue<Vector2>().y > 0)
+        {
+            Debug.Log("Jumping");
+        }
+    }
+
+    void CrouchCheck()
+    {
+        if (crouchAction.ReadValue<Vector2>().y < 0)
+        {
+            Debug.Log("Crouching");
+        }
+    }
 }
