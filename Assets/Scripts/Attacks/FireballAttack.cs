@@ -11,11 +11,6 @@ public class FireballAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        initFireball();
-    }
-
-    void initFireball()
-    {
-        Debug.Log("Fireball Initialized");
+        
     }
 }
