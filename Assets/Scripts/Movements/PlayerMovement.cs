@@ -15,14 +15,16 @@ public class TestScripts : MonoBehaviour
   //FixedUpdate is called every fixed framerate frame
   void FixedUpdate()
   {
-    TestMove();
-    if (DashCheck())
-    {
-      Debug.Log("Dash Detected");
-    }
+    //TestMove();
     ForwardCheck();
     JumpCheck();
     CrouchCheck();
+    Dash();
+  }
+
+  void Update()
+  {
+    Dash();
   }
 
   //Checks if the move action was pressed this frame and logs a message if it was.
@@ -37,7 +39,7 @@ public class TestScripts : MonoBehaviour
   //Checks if the move action was performed twice within the frame window and returns true or false.
   bool DashCheck()
   {
-    if (moveAction.WasPerformedThisFrame())
+    if (moveAction.WasPressedThisFrame())
     {
       int currentFrame = Time.frameCount;
       if (lastMoveFrame >= 0 && currentFrame - lastMoveFrame <= frameWindow)
@@ -48,6 +50,14 @@ public class TestScripts : MonoBehaviour
       lastMoveFrame = currentFrame;
     }
     return false;
+  }
+
+  void Dash()
+  {
+    if (DashCheck())
+    {
+      Debug.Log("Dashing");
+    }
   }
 
   //Checks the direction of movement and logs a message accordingly.

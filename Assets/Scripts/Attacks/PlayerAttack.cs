@@ -17,7 +17,7 @@ public class PlayerAttack : MonoBehaviour
   }
 
   //FixedUpdate is called every fixed framerate frame
-  void Update()
+  void FixedUpdate()
   {
     lightPunchCheck();
     mediumPunchCheck();
@@ -25,6 +25,7 @@ public class PlayerAttack : MonoBehaviour
     lightKickCheck();
     mediumKickCheck();
     heavyKickCheck();
+    grabCheck();
   }
 
   void lightPunchCheck()
@@ -72,6 +73,14 @@ public class PlayerAttack : MonoBehaviour
     if (heavyKickAction.WasPressedThisFrame())
     {
       Debug.Log("Heavy Kick");
+    }
+  }
+
+  void grabCheck()
+  {
+    if (lightKickAction.WasPressedThisFrame() && lightPunchAction.WasPressedThisFrame())
+    {
+      Debug.Log("Grab");
     }
   }
 
