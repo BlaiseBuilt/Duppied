@@ -17,7 +17,7 @@ public class PlayerAttack : MonoBehaviour
   }
 
   //FixedUpdate is called every fixed framerate frame
-  void FixedUpdate()
+  void Update()
   {
     lightPunchCheck();
     mediumPunchCheck();

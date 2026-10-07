@@ -3,13 +3,12 @@ using UnityEngine.InputSystem;
 
 public class TestScripts : MonoBehaviour
 {
-  InputAction moveAction, jumpAction, crouchAction, moveLeftAction, moveRightAction;
-  int frameWindow = 30;
-  int lastMoveFrame = -1;
+  InputAction jumpAction, crouchAction, moveLeftAction, moveRightAction;
+  int frameWindow = 60;
+  int lastMoveFrame;
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start()
   {
-    moveAction = InputSystem.actions.FindAction("Move");
     moveLeftAction = InputSystem.actions.FindAction("Move Left");
     moveRightAction = InputSystem.actions.FindAction("Move Right");
     jumpAction = InputSystem.actions.FindAction("Jump");
@@ -17,63 +16,34 @@ public class TestScripts : MonoBehaviour
   }
 
   //FixedUpdate is called every fixed framerate frame
-  void FixedUpdate()
+  void Update()
   {
-    MoverRight();
-    MoveLeft();
     JumpCheck();
     CrouchCheck();
   }
 
-  void Update()
+  void FixedUpdate()
   {
-    Dash();
-  }
-
-  //Checks if the move action was performed twice within the frame window and returns true or false.
-  bool DashCheck()
-  {
-    if (MoverRight() || MoveLeft())
-    {
-      int currentFrame = Time.frameCount;
-      if (lastMoveFrame >= 0 && currentFrame - lastMoveFrame <= frameWindow)
-      {
-        lastMoveFrame = -1;
-        return true;
-      }
-      lastMoveFrame = currentFrame;
-    }
-    return false;
-  }
-
-  void Dash()
-  {
-    if (DashCheck())
-    {
-      Debug.Log("Dashing");
-    }
+    MoverRight();
+    MoveLeft();
   }
 
   //Checks the direction of movement and logs a message accordingly.
-  bool MoverRight()
+  void MoverRight()
   {
-    if (moveRightAction.WasPressedThisFrame())
+    if (moveRightAction.IsPressed())
     {
-      Debug.Log("Moving Right");
-      return true;
+      this.transform.position += new Vector3(0.5f, 0, 0);
     }
-    return false;
   }
-  
 
-  bool MoveLeft()
+
+  void MoveLeft()
   {
-    if (moveLeftAction.WasPressedThisFrame())
+    if (moveLeftAction.IsPressed())
     {
-      Debug.Log("Moving Left");
-      return true;
+      this.transform.position += new Vector3(-0.5f, 0, 0);
     }
-    return false;
   }
 
   //Checks if the player is jumping
