@@ -23,6 +23,8 @@ public class NewPlayerMove : MonoBehaviour
     CrouchCheck();
   }
 
+//FixedUpdate is called every fixed framerate frame. Used to handle physics calculations 
+//and movement.
   void FixedUpdate()
   {
     MoverRight();
@@ -30,7 +32,7 @@ public class NewPlayerMove : MonoBehaviour
     JumpCheck();
   }
 
-  //Checks the direction of movement and logs a message accordingly.
+  //Checks if the player is moving right and moves the player accordingly.
   void MoverRight()
   {
     if (moveRightAction.IsPressed())
@@ -39,6 +41,7 @@ public class NewPlayerMove : MonoBehaviour
     }
   }
 
+//Checks if the player is moving left and moves the player accordingly.
   void MoveLeft()
   {
     if (moveLeftAction.IsPressed())
@@ -57,15 +60,20 @@ public class NewPlayerMove : MonoBehaviour
     }
   }
 
-  //Checks if the player is crouching
+  //Player crouches when the crouch button is pressed and returns to normal size when the button is released.
   void CrouchCheck()
   {
-    if (crouchAction.WasPressedThisFrame())
+    if (crouchAction.IsPressed())
     {
-      Debug.Log("Crouching");
+      this.transform.localScale = new Vector3(1, 0.5f, 1);
+    }
+    else
+    {
+      this.transform.localScale = new Vector3(1, 1, 1);
     }
   }
 
+//Checks if the player is grounded
   bool IsGrounded()
   {
     if (this.transform.position.y <= 0.5f)
