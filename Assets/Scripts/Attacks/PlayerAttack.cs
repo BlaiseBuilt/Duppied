@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,6 +6,8 @@ public class PlayerAttack : MonoBehaviour
 {
   InputAction lightPunchAction, mediumPunchAction, heavyPunchAction,
     lightKickAction, mediumKickAction, heavyKickAction;
+
+    public event Action LightKickPressed;
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start()
   {
@@ -56,7 +59,7 @@ public class PlayerAttack : MonoBehaviour
   {
     if (lightKickAction.WasPressedThisFrame())
     {
-      Debug.Log("Light Kick");
+      LightKickPressed?.Invoke();
     }
   }
 
