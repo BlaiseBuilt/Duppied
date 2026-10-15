@@ -7,8 +7,10 @@ public class PlayerAttack : MonoBehaviour
   InputAction lightPunchAction, mediumPunchAction, heavyPunchAction,
     lightKickAction, mediumKickAction, heavyKickAction;
 
-    public event Action LightKickPressed, MediumKickPressed, HeavyKickPressed,
-        LightPunchPressed, MediumPunchPressed, HeavyPunchPressed;
+  public event Action LightKickPressed, MediumKickPressed, HeavyKickPressed,
+                      LightPunchPressed, MediumPunchPressed, HeavyPunchPressed,
+                      ThrowPressed;
+
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start()
   {
@@ -29,6 +31,7 @@ public class PlayerAttack : MonoBehaviour
     lightKickCheck();
     mediumKickCheck();
     heavyKickCheck();
+    throwCheck();
   }
 
   void lightPunchCheck()
@@ -76,6 +79,14 @@ public class PlayerAttack : MonoBehaviour
     if (heavyKickAction.WasPressedThisFrame())
     {
       HeavyKickPressed?.Invoke();
+    }
+  }
+
+  void throwCheck()
+  {
+    if (lightPunchAction.WasPressedThisFrame() && lightKickAction.WasPressedThisFrame())
+    {
+      ThrowPressed?.Invoke();
     }
   }
 }
