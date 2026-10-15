@@ -3,7 +3,9 @@ using UnityEngine.InputSystem;
 
 public class NewPlayerMove : MonoBehaviour
 {
-  private const bool V = true;
+    //Player crouches when the crouch button is pressed and returns to normal size when the button is released.
+  public bool IsCrouching{ get; private set;} 
+
   InputAction jumpAction, crouchAction, moveLeftAction, moveRightAction;
   Rigidbody rigidbody;
 
@@ -53,21 +55,18 @@ public class NewPlayerMove : MonoBehaviour
   //Checks if the player is jumping
   void JumpCheck()
   {
-    if (jumpAction.IsPressed() && IsGrounded())
+    if (jumpAction.IsPressed() && GroundCheck())
     {
       rigidbody.AddForce(transform.up * 500f, ForceMode.Force);
       Debug.Log("Jumping Firing");
     }
   }
 
-  //Player crouches when the crouch button is pressed and returns to normal size when the button is released.
-  public bool IsCrouching{ get; private set;} 
-
   void CrouchCheck()
   {
     IsCrouching = crouchAction.IsPressed();
     
-    if (crouchAction.IsPressed())
+    if (crouchAction.IsPressed() && GroundCheck())
     {
       this.transform.localScale = new Vector3(1, 0.5f, 1);
 
@@ -79,8 +78,9 @@ public class NewPlayerMove : MonoBehaviour
   }
 
 //Checks if the player is grounded
-  bool IsGrounded()
+  public bool GroundCheck()
   {
+
     if (this.transform.position.y <= 0.5f)
     {
       return true;

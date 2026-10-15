@@ -14,7 +14,12 @@ public class NormalsInputHandler : MonoBehaviour
 
     void OnEnable()
     {
+        //playerAttack.LightPunchPressed += HandleLightPunchPressed;
+        //playerAttack.MediumPunchPressed += HandleMediumPunchPressed;
+        //playerAttack.HeavyPunchPressed += HandleHeavyPunchPressed;
         playerAttack.LightKickPressed += HandleLightKickPressed;
+        //playerAttack.MediumKickPressed += HandleMediumKickPressed;
+        //playerAttack.HeavyKickPressed += HandleHeavyKickPressed;
     }
 
     void OnDisable()
@@ -22,13 +27,6 @@ public class NormalsInputHandler : MonoBehaviour
         playerAttack.LightKickPressed -= HandleLightKickPressed;
     }
 
-    private void HandleLightKickPressed()
-    {
-        if (newPlayerMove !=null && newPlayerMove.IsCrouching)
-        {
-            CrouchingLightKick();
-        }
-    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -41,8 +39,23 @@ public class NormalsInputHandler : MonoBehaviour
         
     }
 
-    void CrouchingLightKick()
+    // This method is called when the Light Kick input is pressed
+    private void HandleLightKickPressed()
     {
-        Debug.Log("Crouching Light Kick");
+        if (newPlayerMove.IsCrouching && newPlayerMove.GroundCheck())
+        {
+            // Perform crouching light kick action
+            Debug.Log("Crouching Light Kick!");
+        }
+        else if (!newPlayerMove.GroundCheck())
+        {
+            // Perform jumping light kick action
+            Debug.Log("Jumping Light Kick!");
+        }
+        else if (!newPlayerMove.IsCrouching && newPlayerMove.GroundCheck())
+        {
+            // Perform standing light kick action
+            Debug.Log("Standing Light Kick!");
+        }
     }
 }
