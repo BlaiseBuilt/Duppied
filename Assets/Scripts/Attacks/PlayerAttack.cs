@@ -7,7 +7,8 @@ public class PlayerAttack : MonoBehaviour
   InputAction lightPunchAction, mediumPunchAction, heavyPunchAction,
     lightKickAction, mediumKickAction, heavyKickAction;
 
-    public event Action LightKickPressed;
+    public event Action LightKickPressed, MediumKickPressed, HeavyKickPressed,
+        LightPunchPressed, MediumPunchPressed, HeavyPunchPressed;
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start()
   {
@@ -28,14 +29,13 @@ public class PlayerAttack : MonoBehaviour
     lightKickCheck();
     mediumKickCheck();
     heavyKickCheck();
-    grabCheck();
   }
 
   void lightPunchCheck()
   {
     if (lightPunchAction.WasPressedThisFrame())
     {
-      Debug.Log("Light Punch");
+      LightPunchPressed?.Invoke();
     }
   }
 
@@ -43,7 +43,7 @@ public class PlayerAttack : MonoBehaviour
   {
     if (mediumPunchAction.WasPressedThisFrame())
     {
-      Debug.Log("Medium Punch");
+      MediumPunchPressed?.Invoke();
     }
   }
 
@@ -51,7 +51,7 @@ public class PlayerAttack : MonoBehaviour
   {
     if (heavyPunchAction.WasPressedThisFrame())
     {
-      Debug.Log("Heavy Punch");
+      HeavyPunchPressed?.Invoke();
     }
   }
 
@@ -67,7 +67,7 @@ public class PlayerAttack : MonoBehaviour
   {
     if (mediumKickAction.WasPressedThisFrame())
     {
-      Debug.Log("Medium Kick");
+      MediumKickPressed?.Invoke();
     }
   }
 
@@ -75,16 +75,7 @@ public class PlayerAttack : MonoBehaviour
   {
     if (heavyKickAction.WasPressedThisFrame())
     {
-      Debug.Log("Heavy Kick");
+      HeavyKickPressed?.Invoke();
     }
   }
-
-  void grabCheck()
-  {
-    if (lightKickAction.WasPressedThisFrame() && lightPunchAction.WasPressedThisFrame())
-    {
-      Debug.Log("Grab");
-    }
-  }
-
 }
