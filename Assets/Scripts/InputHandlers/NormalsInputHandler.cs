@@ -3,8 +3,8 @@ using UnityEngine.InputSystem;
 
 public class NormalsInputHandler : MonoBehaviour
 {
-  private PlayerAttack playerAttack;
-  private NewPlayerMove newPlayerMove;
+  private PlayerAttack playerAttack; // Reference to the PlayerAttack component
+  private NewPlayerMove newPlayerMove; // Reference to the NewPlayerMove component
 
   void Awake()
   {
@@ -12,6 +12,7 @@ public class NormalsInputHandler : MonoBehaviour
     newPlayerMove = GetComponent<NewPlayerMove>();
   }
 
+// This method is called when the script is enabled
   void OnEnable()
   {
     playerAttack.LightPunchPressed += HandleLightPunchPressed;
@@ -23,6 +24,7 @@ public class NormalsInputHandler : MonoBehaviour
     playerAttack.ThrowPressed += HandleThrowPressed;
   }
 
+  // This method is called when the script is disabled
   void OnDisable()
   {
     playerAttack.LightPunchPressed -= HandleLightPunchPressed;
@@ -162,9 +164,10 @@ public class NormalsInputHandler : MonoBehaviour
     }
   }
 
+  // This method is called when the Throw input is pressed
   private void HandleThrowPressed()
   {
-    if (newPlayerMove.GroundCheck())
+    if (newPlayerMove.GroundCheck() && !newPlayerMove.IsCrouching)
     {
       // Perform throw action
       Debug.Log("Throw!");

@@ -6,6 +6,9 @@ public class PlayerAttack : MonoBehaviour
 {
   InputAction lightPunchAction, mediumPunchAction, heavyPunchAction,
     lightKickAction, mediumKickAction, heavyKickAction;
+  
+  int frameWWindow = 2; // Number of frames to check for input
+  int currentFrame;
 
   public event Action LightKickPressed, MediumKickPressed, HeavyKickPressed,
                       LightPunchPressed, MediumPunchPressed, HeavyPunchPressed,
@@ -84,9 +87,13 @@ public class PlayerAttack : MonoBehaviour
 
   void throwCheck()
   {
-    if (lightPunchAction.WasPressedThisFrame() && lightKickAction.WasPressedThisFrame())
+    if (lightPunchAction.WasPressedThisFrame())
     {
-      ThrowPressed?.Invoke();
+      currentFrame = Time.frameCount;
+      if (lightKickAction.WasPressedThisFrame() && Time.frameCount - currentFrame <= frameWWindow)
+      {
+        ThrowPressed?.Invoke();
+      }
     }
   }
 }
