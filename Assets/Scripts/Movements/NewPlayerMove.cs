@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,8 @@ public class NewPlayerMove : MonoBehaviour
 
   InputAction jumpAction, crouchAction, moveLeftAction, moveRightAction;
   Rigidbody rigidbody;
+
+  public event Action JumpPressed, CrouchPressed, MoveLeftPressed, MoveRightPressed;
 
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start()
@@ -29,17 +32,21 @@ public class NewPlayerMove : MonoBehaviour
 //and movement.
   void FixedUpdate()
   {
-    MoverRight();
+    MoveRight();
     MoveLeft();
     JumpCheck();
   }
 
   //Checks if the player is moving right and moves the player accordingly.
-  void MoverRight()
+  void MoveRight()
   {
     if (moveRightAction.IsPressed())
     {
       this.transform.position += new Vector3(0.05f, 0, 0);
+    }
+    if (moveRightAction.WasPressedThisFrame())
+    {
+      MoveRightPressed?.Invoke();
     }
   }
 
@@ -49,6 +56,11 @@ public class NewPlayerMove : MonoBehaviour
     if (moveLeftAction.IsPressed())
     {
       this.transform.position += new Vector3(-0.05f, 0, 0);
+    }
+
+    if (moveLeftAction.WasPressedThisFrame())
+    {
+      MoveLeftPressed?.Invoke();
     }
   }
 
@@ -60,6 +72,11 @@ public class NewPlayerMove : MonoBehaviour
       rigidbody.AddForce(transform.up * 500f, ForceMode.Force);
       Debug.Log("Jumping Firing");
     }
+
+    if (jumpAction.WasPressedThisFrame())
+    {
+      JumpPressed?.Invoke();
+    }
   }
 
   void CrouchCheck()
@@ -69,11 +86,15 @@ public class NewPlayerMove : MonoBehaviour
     if (crouchAction.IsPressed() && GroundCheck())
     {
       this.transform.localScale = new Vector3(1, 0.5f, 1);
-
     }
     else
     {
       this.transform.localScale = new Vector3(1, 1, 1);
+    }
+
+    if (crouchAction.WasPressedThisFrame())
+    {
+      CrouchPressed?.Invoke();
     }
   }
 
